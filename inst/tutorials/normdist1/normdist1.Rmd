@@ -6,7 +6,6 @@ runtime: shiny_prerendered
 ```{r setup, include=FALSE}
 library(learnr)
 knitr::opts_chunk$set(echo = FALSE)
-tutorial_options(exercise.checker = gradethis::grade_learnr)
 library(mosaic)
 ```
 
@@ -62,17 +61,6 @@ Use `pnorm` to find the probability that a baby is born weighing less than 3.34 
 ```{r small_baby, exercise=TRUE}
 
 ```
-
-```{r small_baby-check}
-res <- pnorm(3.34, mean = 3.296, sd = 0.56)
-grade_result(
-  fail_if(~ (.result < res), "Sorry, this number is too small. Try again."),
-  fail_if(~ (.result > res), "Sorry, this number is too large. Try again."),
-  pass_if(~ (.result == res), "Good job!")
-)
-```
-
-
 
 ### Quiz
 
