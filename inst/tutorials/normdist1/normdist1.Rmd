@@ -5,7 +5,6 @@ runtime: shiny_prerendered
 ---
 ```{r setup, include=FALSE}
 library(learnr)
-library(gradethis)
 knitr::opts_chunk$set(echo = FALSE)
 tutorial_options(exercise.checker = gradethis::grade_learnr)
 library(mosaic)
