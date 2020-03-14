@@ -3,52 +3,76 @@ title: "Normal Distribution in R"
 output: learnr::tutorial
 runtime: shiny_prerendered
 ---
-
 ```{r setup, include=FALSE}
 library(learnr)
 knitr::opts_chunk$set(echo = FALSE)
+tutorial_options(exercise.checker = gradethis::grade_learnr)
+library(mosaic)
 ```
 
 
-## Topic 1
+## Plotting normal distributions
 
-### Exercise 
+In `R` we can plot a normal distribution curve with given mean and standard deviation using the `gf_dist` function:
 
-*Here's a simple exercise with an empty code chunk provided for entering the answer.*
+For example, the following will plot a normal distribution with mean $\mu = 34$ and standard deviation $\sigma = 5$:
 
-Write the R code required to add two plus two:
+```{r}
+gf_dist("norm", mean = 34, sd = 5)
+```
 
-```{r two-plus-two, exercise=TRUE}
+
+### Try it yourself
+
+Enter the code required to plot a normal distribution curve. Try to experiment with different means and standard deviations:
+
+```{r normal-curve, exercise=TRUE}
 
 ```
 
-### Exercise with Code
+### Shading areas
 
-*Here's an exercise with some prepopulated code as well as `exercise.lines = 5` to provide a bit more initial room to work.*
+You can "shade" the areas under the curve, to visualize the probabilities more clearly by using `pdist` instead of `gf_dist`.  To split the areas under the normal curve into three parts: one to the left of -2, one between -2 as 1.5, and one to the right of 1.5, we do this (feel free to experiment with the code, and change the numbers.What would happen if you have only one number inside the `c(...)`?):
 
-Now write a function that adds any two numbers and then call it:
-
-```{r add-function, exercise=TRUE, exercise.lines = 5}
-add <- function() {
-  
-}
+```{r normal-shaded, exercise=TRUE, exercise.eval=TRUE}
+pdist("norm", mean = 0, sd = 1, c(-2, 1.5), return = "plot")
 ```
 
-## Topic 2
+## Calculating probabilities
 
-### Exercise with Hint
+### Area to the left side
 
-*Here's an exercise where the chunk is pre-evaulated via the `exercise.eval` option (so the user can see the default output we'd like them to customize). We also add a "hint" to the correct solution via the chunk immediate below labeled `print-limit-hint`.*
+Let's look at the problem 6 in Chapter 10 of the textbook:
 
-Modify the following code to limit the number of rows printed to 5:
+According to a study cited in the textbook,
+the babies born in singleton births in the United States have birth weights that are approximately normally distributed with mean 3.296 kg and standard deviation 0.560 kg.
 
-```{r print-limit, exercise=TRUE, exercise.eval=TRUE}
-mtcars
+_What is the probability that a baby is born weighing less than 2.57 kg?_
+
+Since the baby weight are normally distributed, we can use normal distribution to answer this.  For the probability of a baby weighing __less__ than 2.57 kg, we need to find the area to the __left__ of 2.57 under the normal curve with mean 3.296 and standard deviation 0.560.
+
+For that, we use `pnorm`:
+
+```{r}
+pnorm(2.57, mean = 3.296, sd = 0.56)
 ```
 
-```{r print-limit-hint}
-head(mtcars)
+Use `pnorm` to find the probability that a baby is born weighing less than 3.34 kg:
+
+```{r small_baby, exercise=TRUE}
+
 ```
+
+```{r small_baby-check}
+res <- pnorm(3.34, mean = 3.296, sd = 0.56)
+grade_result(
+  fail_if(~ (.result < res), "Sorry, this number is too small. Try again."),
+  fail_if(~ (.result > res), "Sorry, this number is too large. Try again."),
+  pass_if(~ (.result == res), "Good job!")
+)
+```
+
+
 
 ### Quiz
 
