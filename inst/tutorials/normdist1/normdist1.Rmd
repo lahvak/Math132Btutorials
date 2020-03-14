@@ -6,6 +6,9 @@ runtime: shiny_prerendered
 ```{r setup, include=FALSE}
 library(learnr)
 knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r message=FALSE, warning=FALSE}
 library(mosaic)
 ```
 
@@ -16,7 +19,7 @@ In `R` we can plot a normal distribution curve with given mean and standard devi
 
 For example, the following will plot a normal distribution with mean $\mu = 34$ and standard deviation $\sigma = 5$:
 
-```{r}
+```{r, echo=TRUE}
 gf_dist("norm", mean = 34, sd = 5)
 ```
 
@@ -52,7 +55,7 @@ Since the baby weight are normally distributed, we can use normal distribution t
 
 For that, we use `pnorm`:
 
-```{r}
+```{r, echo=TRUE}
 pnorm(2.57, mean = 3.296, sd = 0.56)
 ```
 
@@ -61,6 +64,21 @@ Use `pnorm` to find the probability that a baby is born weighing less than 3.34 
 ```{r small_baby, exercise=TRUE}
 
 ```
+
+```{r small_baby-solution}
+pnorm(3.34, mean = 3.296, sd = 0.56)
+```
+
+Use `pnorm` to find the area to the left of 34 under the normal curve with mean 31 and standard deviation 10:
+
+```{r left_area, exercise=TRUE}
+
+```
+
+```{r left_area-solution}
+pnorm(34, mean = 31, sd = 10)
+```
+
 
 ### Quiz
 
