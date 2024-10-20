@@ -15,6 +15,8 @@ library(mosaic)
 
 ## Plotting normal distributions
 
+### Distribution curve
+
 In `R` we can plot a normal distribution curve with given mean and standard deviation using the `gf_dist` function:
 
 For example, the following will plot a normal distribution with mean $\mu = 34$ and standard deviation $\sigma = 5$:
@@ -24,7 +26,7 @@ gf_dist("norm", mean = 34, sd = 5)
 ```
 
 
-### Try it yourself
+#### Try it yourself
 
 Enter the code required to plot a normal distribution curve. Try to experiment with different means and standard deviations:
 
@@ -34,30 +36,70 @@ Enter the code required to plot a normal distribution curve. Try to experiment w
 
 ### Shading areas
 
-You can "shade" the areas under the curve, to visualize the probabilities more clearly by using `pdist` instead of `gf_dist`.  To split the areas under the normal curve into three parts: one to the left of -2, one between -2 as 1.5, and one to the right of 1.5, we do this (feel free to experiment with the code, and change the numbers.What would happen if you have only one number inside the `c(...)`?):
+You can "shade" the areas under the curve, to visualize the probabilities more clearly by using `pdist` instead of `gf_dist`.  To split the areas under the normal curve into three parts: one to the left of -2, one between -2 as 1.5, and one to the right of 1.5, we do this:
 
-```{r normal-shaded, exercise=TRUE, exercise.eval=TRUE}
+```{r, echo=TRUE}
 pdist("norm", mean = 0, sd = 1, c(-2, 1.5), return = "plot")
+```
+
+#### Try it yourself
+
+Experiment with the code, change the numbers and see what happens (you can always click "Start over" to return back to the original state).
+
+Try to figure out the answer to these questions:
+
+*  What would happen if you have only one number inside the `c(...)`?):
+*  What is the number inside the `c(...)` is the same as the _mean_?
+*  What if the number inside the `c(...)` is more than 5 standard deviations away from the mean?
+*  What if you put a lot of numbers inside the `c(...)` (don't forget they must be separated by commas)?
+
+```{r normal-shaded, exercise=TRUE}
+pdist("norm", mean = 0, sd = 1, c(-2, 1.5), return = "plot")
+```
+
+### Short quiz:
+
+```{r quiz_plots}
+quiz(
+  question("Which of the following R functions can be used to plot a normal distribution?",
+    answer("gf_dist", correct = TRUE),
+    answer("gf_norm"),
+    answer("pdist", correct = TRUE),
+    answer("PloTMaNormalDISTRIBUTIONalready!")
+  ),
+  question("Which of the following will plot a normal distribution curve with mean 7 and standard deviation 2?",
+    answer("gf_dist(\"norm\", mu = 7, sigma = 2)"),
+    answer("gf_norm(mu = 7, sigma = 2)"),
+    answer("gf_dist(\"norm\", mean = 7, sd = 2)", correct = TRUE),
+    answer("gf_dist(\"norm\", mean = 2, sd = 7)")
+  )
+)
 ```
 
 ## Calculating probabilities
 
 ### Area to the left side
 
+_In R, we use `pnorm` to find the area to the left of a given number under a normal curve._
+
+Consider the example:
+
 Let's look at the problem 6 in Chapter 10 of the textbook:
 
-According to a study cited in the textbook,
-the babies born in singleton births in the United States have birth weights that are approximately normally distributed with mean 3.296 kg and standard deviation 0.560 kg.
+> According to a study cited in the textbook,
+> the babies born in singleton births in the United States have birth weights that are approximately normally distributed with mean 3.296 kg and standard deviation 0.560 kg.
+> 
+> _What is the probability that a baby is born weighing less than 2.57 kg?_
 
-_What is the probability that a baby is born weighing less than 2.57 kg?_
-
-Since the baby weight are normally distributed, we can use normal distribution to answer this.  For the probability of a baby weighing __less__ than 2.57 kg, we need to find the area to the __left__ of 2.57 under the normal curve with mean 3.296 and standard deviation 0.560.
+Since the baby weight are normally distributed, we can use normal distribution to answer this.  For the probability of a baby weighing __less__ than 2.57 kg, _we need to find the area to the __left__ of 2.57 under the normal curve with mean 3.296 and standard deviation 0.560._
 
 For that, we use `pnorm`:
 
 ```{r, echo=TRUE}
 pnorm(2.57, mean = 3.296, sd = 0.56)
 ```
+
+#### Try it yourself
 
 Use `pnorm` to find the probability that a baby is born weighing less than 3.34 kg:
 
@@ -69,6 +111,8 @@ Use `pnorm` to find the probability that a baby is born weighing less than 3.34 
 pnorm(3.34, mean = 3.296, sd = 0.56)
 ```
 
+#### Try another one
+
 Use `pnorm` to find the area to the left of 34 under the normal curve with mean 31 and standard deviation 10:
 
 ```{r left_area, exercise=TRUE}
@@ -79,26 +123,76 @@ Use `pnorm` to find the area to the left of 34 under the normal curve with mean 
 pnorm(34, mean = 31, sd = 10)
 ```
 
+#### Short quiz
 
-### Quiz
-
-*You can include any number of single or multiple choice questions as a quiz. Use the `question` function to define a question and the `quiz` function for grouping multiple questions together.*
-
-Some questions to verify that you understand the purposes of various base and recommended R packages:
-
-```{r quiz}
+```{r quiz_left}
 quiz(
-  question("Which package contains functions for installing other R packages?",
-    answer("base"),
-    answer("tools"),
-    answer("utils", correct = TRUE),
-    answer("codetools")
-  ),
-  question("Which of the R packages listed below are used to create plots?",
-    answer("lattice", correct = TRUE),
-    answer("tools"),
-    answer("stats"),
-    answer("grid", correct = TRUE)
+  question("`pnorm(2.1, mean = 5, sd = 3)` will give us",
+    answer("the area to the right of 2.1"),
+    answer("the area between 2.1 and 5"),
+    answer("the area to the left of 2.1", correct = TRUE),
+    answer("the area to the left of 5")
   )
 )
 ```
+
+### Area to the right
+
+In R, `pnorm` will give you the area to the _left_.  To get the area to the right, you need to subtract from 1.
+
+
+Let's take another look at the problem 6 in Chapter 10 of the textbook:
+
+> According to a study cited in the textbook,
+> the babies born in singleton births in the United States have birth weights that are approximately normally distributed with mean 3.296 kg and standard deviation 0.560 kg.
+> 
+> _What is the probability that a baby is born weighing more than 5 kg?_
+
+```{r, echo=TRUE}
+1 - pnorm(5, mean = 3.296, sd = 0.56)
+```
+
+#### Try it yourself
+
+_What is the probability that a baby is born weighing more than 2.3 kg?_
+
+```{r heavy_baby, exercise=TRUE}
+
+```
+
+```{r heavy_baby-solution}
+1 - pnorm(2.3, mean = 3.296, sd = 0.56)
+```
+
+#### Another one
+
+Find the area to the right of 72 under the normal distribution curve with mean 65 and standard deviation 17:
+
+```{r area_right, exercise=TRUE}
+
+```
+
+```{r area_right-solution}
+1 - pnorm(72, mean = 65, sd = 17)
+```
+
+#### Another option
+
+Instead of subtracting from 1, the `pnorm` function has an optional parameter, `lower.tail`, which defaults to `TRUE`.  So we can also do this:
+
+```{r, echo=TRUE}
+pnorm(72,  mean = 65, sd = 17, lower.tail = FALSE)
+```
+
+#### Short quiz
+
+```{r quiz_right}
+quiz(
+  question("Which of the following will give us the area to the right?",
+    answer("1 - pnorm(2, mean = 3, sd = 1.2)", correct = TRUE),
+    answer("pnorm(2, mean = 3, sd = 1.2, lower.tail = FALSE", correct = TRUE)
+  )
+)
+```
+
+### Next thing
